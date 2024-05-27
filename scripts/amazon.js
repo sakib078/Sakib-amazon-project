@@ -1,7 +1,12 @@
+import { cart, addProductToCart, calculateCartTotal } from "../scripts/cart.js";
+import { products } from "../scripts/products.js";
+
 let productHtml = '';
 
-products.forEach((product) => {
 
+
+// Loop through the products array and generate the HTML for each product
+products.forEach((product) => {
   productHtml += `
     <div class="product-container">
         <div class="product-image-container">
@@ -64,66 +69,12 @@ document.querySelectorAll(".js-add-to-cart")
     button.addEventListener('click', () => {
       const productId = button.dataset.productId;
 
-      let matchingItem;
-      let cart_quantity = 0;
+      addProductToCart(productId);
 
-
-      let option = document.querySelector(`.quantity-selector-${productId}`);
-
-      let product_quantity = Number(option.value);
-
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-          matchingItem = item;
-          console.log("Hello1");
-        }
-      })
-
-      if (matchingItem) {
-        matchingItem.quantity += product_quantity;
-        console.log("Hello2");
-      }
-      else {
-        cart.push(
-          {
-            productId: productId,
-            quantity: product_quantity
-          }
-        );
-        console.log("Hello3");
-      }
-
-      cart.forEach((item) => {
-        cart_quantity += item.quantity;
-      })
-
-      document.querySelector(".js-cart-quality")
-        .innerHTML = cart_quantity;
-      console.log(cart);
-      console.log(cart_quantity);
-
-
-      cart.forEach((item) => {
-        if (productId === item.productId || matchingItem) {
-          let added_to_cart = document.querySelector(`.js-added-to-cart-${productId}`);
-          added_to_cart.classList.add("added-to-cart");
-          added_to_cart.style.opacity = 1;
-          setTimeout(() => {
-            added_to_cart.classList.remove("added-to-cart");
-            added_to_cart.style.opacity = 0;
-          }, 1500);
-
-        }
-      })
+      calculateCartTotal();
 
     })
   })
-
-
-
-// let quantity_selector = selectContainer.querySelector(".quantity-selector");
-
-// console.log(`qs: ${quantity_selector.innerHTML}`);
 
 
 
