@@ -1,4 +1,4 @@
-import { cart, removeItem } from "../scripts/cart.js";
+import { cart, removeItem, savecartLocally } from "../scripts/cart.js";
 import { products } from "../scripts/products.js";
 import { priceFormatter } from "./utils/money.js";
 
@@ -38,9 +38,13 @@ cart.forEach((cartItem) => {
                 <span>
                   Quantity: <span class="quantity-label"> ${cartItem.quantity}</span>
                 </span>
-                <span class="update-quantity-link link-primary">
-                  Update
-                </span>
+                <div class= "updating-quality">
+                 <span class="update-quantity-link link-primary " data-product-id ="${matchingProduct.id} ">
+                 Update
+                 </span>
+                 <input type="number" class="quantity-input js-quantity-input-${matchingProduct.id}">
+                 <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.id}" data-product-id ="${matchingProduct.id}"> Save </span>
+                </div>
                 <span class="delete-quantity-link link-primary " data-product-id ="${matchingProduct.id}">
                   Delete
                 </span>
@@ -89,7 +93,7 @@ cart.forEach((cartItem) => {
         </div>
     `
 
-  console.log(cartSummary);
+  // console.log(cartSummary);
   document.querySelector('.js-order-summary').innerHTML += cartSummary;
 
 })
@@ -107,3 +111,64 @@ document.querySelectorAll('.delete-quantity-link')
     })
 
   })
+
+
+document.querySelectorAll(".update-quantity-link")
+  .forEach((updateLink) => {
+    let productId = updateLink.dataset.productId; // Assign value to productId here
+
+    updateLink.addEventListener("click", () => {
+      let quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      let saveLink = document.querySelector(`.js-save-quantity-link-${productId}`);
+
+
+      quantityInput.classList.add("quantity-input");
+      saveLink.classList.add("save-quantity-link");
+
+      // Show the 'Save' button and the input field
+      quantityInput.style.display = "inline";
+      saveLink.style.display = "inline";
+      quantityInput.style.opacity = 1;
+      saveLink.style.opacity = 1;
+    })
+  })
+
+
+let updated_quantity = " ";
+
+document.querySelectorAll(".save-quantity-link")
+  .forEach((savelink) => {
+    let productId = savelink.dataset.productId;
+
+    savelink.addEventListener("click", () => {
+
+      let quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      let saveLink = document.querySelector(`.js-save-quantity-link-${productId}`);
+
+      quantityInput.classList.add("quantity-input");
+      saveLink.classList.add("save-quantity-link");
+
+
+      updated_quantity = quantityInput.value;
+
+      console.log(updated_quantity);
+
+      cart.forEach((cartItem) => {
+        if (productId === cartItem.productId) {
+          cartItem.quantity = Number(updated_quantity);
+          // console.log(updated_quantity);
+          // console.log(cartItem);
+        }
+      })
+
+      savecartLocally(); // Save the updated cart to localStorage
+
+      setTimeout(() => {
+        quantityInput.style.display = "none";
+        saveLink.style.display = "none";
+        quantityInput.style.opacity = 0;
+        saveLink.style.opacity = 0;
+      }, 500);
+    })
+  })
+

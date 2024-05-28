@@ -119,6 +119,18 @@
   margin-left: 3px;
 }
 
+.updating-quality {
+  display: inline;
+  flex-direction: row;
+}
+
+.quantity-input,
+.save-quantity-link {
+  display: none;
+  width: 30px;
+  opacity: 0;
+}
+
 @media (max-width: 1000px) {
   .delivery-options {
     /* grid-column: 1 means this element will be placed

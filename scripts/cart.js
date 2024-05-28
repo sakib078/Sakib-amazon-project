@@ -1,5 +1,3 @@
-
-
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
@@ -16,7 +14,7 @@ if (!cart) {
 }
 
 
-function savecartLocally() {
+export function savecartLocally() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
@@ -54,13 +52,13 @@ export function addProductToCart(productId) {
     cart.forEach((item) => {
         if (productId === item.productId || matchingItem) {
             let added_to_cart = document.querySelector(`.js-added-to-cart-${productId}`);
+
             added_to_cart.classList.add("added-to-cart");
             added_to_cart.style.opacity = 1;
             setTimeout(() => {
                 added_to_cart.classList.remove("added-to-cart");
                 added_to_cart.style.opacity = 0;
             }, 1500);
-
         }
     })
 
