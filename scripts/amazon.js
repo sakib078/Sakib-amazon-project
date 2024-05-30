@@ -1,9 +1,8 @@
-import { cart, addProductToCart, calculateCartTotal } from "../scripts/cart.js";
+import { cart, addProductToCart, calculateCartTotal, } from "../scripts/cart.js";
 import { products } from "../scripts/products.js";
+import { priceFormatter } from "../scripts/utils/money.js";
 
 let productHtml = '';
-
-
 
 // Loop through the products array and generate the HTML for each product
 products.forEach((product) => {
@@ -25,7 +24,7 @@ products.forEach((product) => {
         </div>
 
         <div class="product-price">
-          $${(product.priceCents / 100).toFixed(2)}
+          $${priceFormatter(product.priceCents)}
         </div>
 
         <div class="product-quantity-container js-product-quantity-container">
@@ -72,7 +71,6 @@ document.querySelectorAll(".js-add-to-cart")
       addProductToCart(productId);
 
       calculateCartTotal();
-
     })
   })
 

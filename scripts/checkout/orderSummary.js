@@ -1,9 +1,10 @@
 import { cart, removeItem, savecartLocally, updateDeliveryOption } from "../cart.js";
 import { products } from "../products.js";
 import { priceFormatter } from "../utils/money.js";
+import { renderPaymentSummary } from "../checkout/paymentSummary.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
-import { deliveryOptions } from "../deliveryOptions.js"
+import { deliveryOptions } from "../deliveryOptions.js";
 
 const today = dayjs();
 
@@ -50,7 +51,7 @@ export function renderOrderSummary() {
                 <span class="update-quantity-link link-primary" data-product-id="${matchingProduct.id}">
                   Update
                 </span>
-                <input type="number" class="quantity-input js-quantity-input-${matchingProduct.id}">
+                <input type="number" min="0" max="50" class="quantity-input js-quantity-input-${matchingProduct.id}">
                 <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.id}" data-product-id="${matchingProduct.id}">
                   Save
                 </span>
@@ -106,6 +107,7 @@ export function renderOrderSummary() {
       removeItem(productId);
       const cartContainer = document.querySelector(`.js-cart-item-container-${productId}`);
       cartContainer.remove();
+      renderPaymentSummary();
     });
   });
 
@@ -131,15 +133,23 @@ export function renderOrderSummary() {
       let quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
       let updatedQuantity = quantityInput.value;
 
-      console.log(updatedQuantity);
-
-      cart.forEach((cartItem) => {
-        if (productId === cartItem.productId) {
-          cartItem.quantity = Number(updatedQuantity);
-        }
-      });
+      // If the updated quantity is zero, remove the item from the cart
+      if (updatedQuantity == 0) {
+        removeItem(productId);
+        const cartContainer = document.querySelector(`.js-cart-item-container-${productId}`);
+        cartContainer.remove();
+      } else {
+        // Update the quantity in the cart
+        cart.forEach((cartItem) => {
+          if (productId === cartItem.productId) {
+            cartItem.quantity = Number(updatedQuantity);
+          }
+        });
+      }
 
       savecartLocally(); // Save the updated cart to localStorage
+      renderPaymentSummary();
+      renderOrderSummary();
 
       setTimeout(() => {
         quantityInput.style.display = "none";
@@ -150,12 +160,14 @@ export function renderOrderSummary() {
     });
   });
 
+
   // Delivery option changes
   document.querySelectorAll('.js-delivery-option').forEach((element) => {
     element.addEventListener("click", () => {
       const { productId, deliveryId } = element.dataset;
       updateDeliveryOption(productId, deliveryId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
