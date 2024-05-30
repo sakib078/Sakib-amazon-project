@@ -28,7 +28,6 @@ export function renderPaymentSummary() {
 
     total_price += matchingItems.priceCents * cartItem.quantity;
 
-
     deliveryOptions.forEach((delivery) => {
       if (cartItem.deliveryOptionId === delivery.id) {
         shippingCharges += parseFloat(delivery.PriceCents);
@@ -37,14 +36,9 @@ export function renderPaymentSummary() {
 
     console.log(shippingCharges);
 
-
-
     priceAfterTax = total_price + shippingCharges;
-
     tex_fees = priceAfterTax * 0.1;
-
     finalprize = priceAfterTax + tex_fees;
-
 
     // console.log(total_price);
 
