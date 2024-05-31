@@ -1,19 +1,31 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
 
-if (!cart) {
-    cart = [
-        {
-            productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-            quantity: 2,
-            deliveryOptionId: '1'
-        },
-        {
-            productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-            quantity: 1,
-            deliveryOptionId: '2'
-        }
-    ];
+
+export function loadFromstorage() {
+    if (cart === undefined) {
+        console.error("cart is undefined");
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    if (!cart) {
+        cart = [
+            {
+                productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+                quantity: 2,
+                deliveryOptionId: '1'
+            },
+            {
+                productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+                quantity: 1,
+                deliveryOptionId: '2'
+            }
+        ];
+    }
+
 }
+
 
 
 export function savecartLocally() {
@@ -22,6 +34,7 @@ export function savecartLocally() {
 
 export function matchProduct(productId) {
     let matchingItem;
+    loadFromstorage();
 
     cart.forEach((item) => {
         if (productId === item.productId) {
@@ -39,7 +52,7 @@ export function addProductToCart(productId) {
 
     let option = document.querySelector(`.quantity-selector-${productId}`);
 
-    let product_quantity = Number(option.value);
+    let product_quantity = option ? Number(option.value) : 1;
 
     matchingItem = matchProduct(productId);
 
@@ -64,12 +77,17 @@ export function addProductToCart(productId) {
         if (productId === item.productId || matchingItem) {
             let added_to_cart = document.querySelector(`.js-added-to-cart-${productId}`);
 
-            added_to_cart.classList.add("added-to-cart");
-            added_to_cart.style.opacity = 1;
-            setTimeout(() => {
-                added_to_cart.classList.remove("added-to-cart");
-                added_to_cart.style.opacity = 0;
-            }, 1500);
+            // Check if added_to_cart is not null or undefined before accessing its classList
+            if (added_to_cart) {
+                added_to_cart.classList.add("added-to-cart");
+                added_to_cart.style.opacity = 1;
+                setTimeout(() => {
+                    added_to_cart.classList.remove("added-to-cart");
+                    added_to_cart.style.opacity = 0;
+                }, 1500);
+            } else {
+                console.error(`Element with selector .js-added-to-cart-${productId} not found.`);
+            }
         }
     })
 

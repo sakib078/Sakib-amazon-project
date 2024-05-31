@@ -1,4 +1,4 @@
-import { cart, removeItem, savecartLocally, updateDeliveryOption } from "../cart.js";
+import { cart, removeItem, savecartLocally, updateDeliveryOption, loadFromstorage } from "../cart.js";
 import { products } from "../products.js";
 import { priceFormatter } from "../utils/money.js";
 import { renderPaymentSummary } from "../checkout/paymentSummary.js";
@@ -15,7 +15,15 @@ export function renderOrderSummary() {
   let container = document.querySelector('.js-order-summary');
 
   // Clear the old content
-  container.innerHTML = '';
+  if (container) {
+    container.innerHTML = '';
+  }
+  else {
+    console.error('container is undefined');
+  }
+
+
+  loadFromstorage();
 
   cart.forEach((cartItem) => {
     let productId = cartItem.productId;
@@ -30,7 +38,7 @@ export function renderOrderSummary() {
     let datastring = deliveryDays.format('dddd, MMMM D');
 
     let cartSummary = `
-      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+      <div class="cart-item-container js-test-cart-item-container js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
           Delivery date: ${datastring}
         </div>
@@ -71,7 +79,16 @@ export function renderOrderSummary() {
       </div>
     `;
 
-    document.querySelector('.js-order-summary').innerHTML += cartSummary;
+    let orderSummaryElement = document.querySelector('.js-order-summary');
+
+    // Check if orderSummaryElement is not null before setting its innerHTML
+    if (orderSummaryElement) {
+      orderSummaryElement.innerHTML += cartSummary;
+    } else {
+      console.error(`Element with selector .js-order-summary not found.`);
+    }
+
+
   });
 
   function deliveryOptionHtml(matchingProduct, cartItem) {

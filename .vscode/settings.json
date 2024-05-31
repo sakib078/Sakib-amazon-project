@@ -1,3 +1,11 @@
 {
-    "livePreview.defaultPreviewPath": "/amazon.html"
+    "livePreview.defaultPreviewPath": "/amazon.html",
+    "workbench.editor.openSideBySideDirection": "right",
+    "screencastMode.keyboardOptions": {
+        "showCommandGroups": true
+    },
+    "workbench.editor.enablePreview": false,
+    "files.autoSave": "onFocusChange",
+    "editor.experimentalInlineEdit.enabled": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false
 }
