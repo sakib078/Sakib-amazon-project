@@ -1,21 +1,21 @@
 class Cart {
 
-    cartItems = undefined;
-    localStorageKey = undefined;
+    cartItems;
+    #localStorageKey;
 
     constructor(localStorageKey) {
 
-        this.localStorageKey = localStorageKey;
-        this.loadFromstorage();
+        this.#localStorageKey = localStorageKey;
+        this.#loadFromstorage();
 
     }
 
-    loadFromstorage() {
+    #loadFromstorage() {
         if (this.cartItems === undefined) {
             console.error("cart is undefined");
         }
         else {
-            this.cartItems = JSON.parse(localStorage.getItem(localStorageKey));
+            this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
         }
 
         if (!this.cartItems) {
