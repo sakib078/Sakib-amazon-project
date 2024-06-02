@@ -1,13 +1,9 @@
-export let cart;
+export let cart = [];
 
 
 export function loadFromstorage() {
-    if (cart === undefined) {
-        console.error("cart is undefined");
-    }
-    else {
-        cart = JSON.parse(localStorage.getItem('cart'));
-    }
+
+    cart = JSON.parse(localStorage.getItem('cart'));
 
     if (!cart) {
         cart = [

@@ -18,7 +18,7 @@ export function renderPaymentSummary() {
   cart.forEach(cartItem => {
 
     products.forEach(product => {
-      if (product.id === cartItem.productId) {
+      if (product.getId() === cartItem.productId) {
         matchingItems = product;
       }
     })
@@ -26,7 +26,7 @@ export function renderPaymentSummary() {
     cart_quantity += cartItem.quantity;
     // console.log(cart_quantity);
 
-    total_price += matchingItems.priceCents * cartItem.quantity;
+    total_price += matchingItems.getPriceCents() * cartItem.quantity;
 
     deliveryOptions.forEach((delivery) => {
       if (cartItem.deliveryOptionId === delivery.id) {

@@ -1,3 +1,85 @@
+class Product {
+    #id;
+    #priceCents;
+
+    constructor(productDetails) {
+        this.#id = productDetails.id;
+        this.image = productDetails.image;
+        this.name = productDetails.name;
+        this.rating = productDetails.rating;
+        this.#priceCents = productDetails.priceCents;
+        this.keywords = productDetails.keywords;
+        this.type = productDetails.type;
+        this.sizeChartLink = productDetails.sizeChartLink;
+    }
+
+    // Getter for id
+    getId() {
+        return this.#id;
+    }
+
+    // Getter for price in cents
+    getPriceCents() {
+        return this.#priceCents;
+    }
+
+    // Setter for price in cents
+    setPriceCents(newPriceCents) {
+        this.#priceCents = newPriceCents;
+    }
+
+    // Method to get price in dollars
+    getPriceDollars() {
+        return (this.#priceCents / 100).toFixed(2);
+    }
+
+    getStartUrl() {
+        return `images/ratings/rating-${this.rating.stars * 10}.png`;
+    }
+
+    // Method to display product information
+    displayProductInfo() {
+        console.log(`Name: ${this.name}`);
+        console.log(`Price: $${this.getPriceDollars()}`);
+        console.log(`Rating: ${this.rating.stars} stars (${this.rating.count} reviews)`);
+        console.log(`Keywords: ${this.keywords.join(', ')}`);
+        console.log(`stars: ${this.getStartUrl()}`);
+        if (this.type) {
+            console.log(`Type: ${this.type}`);
+        }
+        if (this.sizeChartLink) {
+            console.log(`Size Chart: ${this.sizeChartLink}`);
+        }
+    }
+}
+
+// Example usage:
+// const productd = {
+//     id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+//     image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
+//     name: "Adults Plain Cotton T-Shirt - 2 Pack",
+//     rating: {
+//         stars: 4.5,
+//         count: 56
+//     },
+//     priceCents: 799,
+//     keywords: [
+//         "tshirts",
+//         "apparel",
+//         "mens"
+//     ],
+//     type: "clothing",
+//     sizeChartLink: "images/clothing-size-chart.png"
+// }
+
+// let product1 = new Product(productd);
+
+// product1.displayProductInfo();
+// console.log("Product ID:", product1.getId());
+// console.log("Product Price in Cents:", product1.getPriceCents()); 
+
+
+
 export const products = [
     {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -657,4 +739,8 @@ export const products = [
             "mens"
         ]
     }
-];
+].map((productsdetails) => {
+    return new Product(productsdetails);
+});
+
+console.log(products);

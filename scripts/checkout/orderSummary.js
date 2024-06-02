@@ -27,7 +27,8 @@ export function renderOrderSummary() {
 
   cart.forEach((cartItem) => {
     let productId = cartItem.productId;
-    let matchingProduct = products.find(product => productId === product.id);
+    let matchingProduct = products.find(product => productId === product.getId());
+
 
     console.log(matchingProduct);
 
@@ -38,7 +39,7 @@ export function renderOrderSummary() {
     let datastring = deliveryDays.format('dddd, MMMM D');
 
     let cartSummary = `
-      <div class="cart-item-container js-test-cart-item-container js-cart-item-container-${matchingProduct.id}">
+      <div class="cart-item-container js-test-cart-item-container js-cart-item-container-${matchingProduct.getId()}">
         <div class="delivery-date">
           Delivery date: ${datastring}
         </div>
@@ -49,22 +50,22 @@ export function renderOrderSummary() {
               ${matchingProduct.name}
             </div>
             <div class="product-price">
-              $${priceFormatter(matchingProduct.priceCents)}
+              $${priceFormatter(matchingProduct.getPriceCents())}
             </div>
             <div class="product-quantity">
               <span>
                 Quantity: <span class="quantity-label">${cartItem.quantity}</span>
               </span>
               <div class="updating-quantity">
-                <span class="update-quantity-link link-primary" data-product-id="${matchingProduct.id}">
+                <span class="update-quantity-link link-primary" data-product-id="${matchingProduct.getId()}">
                   Update
                 </span>
-                <input type="number" min="0" max="50" class="quantity-input js-quantity-input-${matchingProduct.id}">
-                <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.id}" data-product-id="${matchingProduct.id}">
+                <input type="number" min="0" max="50" class="quantity-input js-quantity-input-${matchingProduct.getId()}">
+                <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.getId()}" data-product-id="${matchingProduct.id}">
                   Save
                 </span>
               </div>
-              <span class="delete-quantity-link link-primary" data-product-id="${matchingProduct.id}">
+              <span class="delete-quantity-link link-primary" data-product-id="${matchingProduct.getId()}">
                 Delete
               </span>
             </div>
@@ -101,8 +102,8 @@ export function renderOrderSummary() {
       const isChecked = delivery.id === cartItem.deliveryOptionId;
 
       deliveryHTML += `
-        <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-id="${delivery.id}">
-          <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
+        <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.getId()}" data-delivery-id="${delivery.id}">
+          <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${matchingProduct.getId()}">
           <div>
             <div class="delivery-option-date">
               ${datastring}
