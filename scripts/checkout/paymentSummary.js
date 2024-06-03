@@ -1,8 +1,14 @@
-
 import { cart } from "../cart.js"
 import { priceFormatter } from "../utils/money.js";
 import { products } from "../products.js";
 import { deliveryOptions } from "../deliveryOptions.js"
+
+// loadProducts(renderPaymentSummary);
+
+new Promise(() => {
+  console.log('promise');
+})
+
 
 export function renderPaymentSummary() {
   console.log("Hello");

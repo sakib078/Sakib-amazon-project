@@ -10,6 +10,13 @@ const today = dayjs();
 
 console.log(today);
 
+new Promise(() => {
+  console.log('promise');
+})
+
+
+// loadProducts(renderOrderSummary);
+
 export function renderOrderSummary() {
 
   let container = document.querySelector('.js-order-summary');
@@ -25,14 +32,27 @@ export function renderOrderSummary() {
 
   loadFromstorage();
 
+  let matchingProduct;
+
+
   cart.forEach((cartItem) => {
     let productId = cartItem.productId;
-    let matchingProduct = products.find(product => productId === product.getId());
 
 
-    console.log(matchingProduct);
+    products.forEach((product) => {
+      if (productId === product.getId()) {
+        matchingProduct = product;
+      }
+    })
 
-    let deliveryOption = deliveryOptions.find(option => cartItem.deliveryOptionId === option.id);
+
+    let deliveryOption;
+
+    deliveryOptions.forEach((option) => {
+      if (cartItem.deliveryOptionId === option.id) {
+        deliveryOption = option;
+      }
+    })
 
     let today = dayjs();
     let deliveryDays = today.add(deliveryOption.deliveryDays, 'days');
@@ -61,7 +81,7 @@ export function renderOrderSummary() {
                   Update
                 </span>
                 <input type="number" min="0" max="50" class="quantity-input js-quantity-input-${matchingProduct.getId()}">
-                <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.getId()}" data-product-id="${matchingProduct.id}">
+                <span class="save-quantity-link link-primary js-save-quantity-link-${matchingProduct.getId()}" data-product-id="${matchingProduct.getId()}">
                   Save
                 </span>
               </div>
@@ -151,6 +171,8 @@ export function renderOrderSummary() {
       let quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
       let updatedQuantity = quantityInput.value;
 
+      // console.log(`q: ${quantityInput.value}`);
+
       // If the updated quantity is zero, remove the item from the cart
       if (updatedQuantity == 0) {
         removeItem(productId);
@@ -191,4 +213,5 @@ export function renderOrderSummary() {
 }
 
 
-renderOrderSummary();
+// issue resolved , i was running the function two times , and the promise was not working do not uncomment.
+// renderOrderSummary();

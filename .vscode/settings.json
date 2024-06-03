@@ -1,5 +1,5 @@
 {
-    "livePreview.defaultPreviewPath": "/amazon.html",
+    "livePreview.defaultPreviewPath": "/checkout.html",
     "workbench.editor.openSideBySideDirection": "right",
     "screencastMode.keyboardOptions": {
         "showCommandGroups": true

@@ -74,6 +74,62 @@ class Clothes extends Product {
 }
 
 
+export let products = [];
+
+
+export function loadProductsFetch() {
+    let promise = fetch('https://supersimplebackend.dev/products')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            products = data.map(productDetails => {
+                if (productDetails.type === 'clothing') {
+                    return new Clothes(productDetails);
+                }
+                return new Product(productDetails);
+            });
+        })
+    return promise;
+}
+
+loadProductsFetch();
+
+
+
+
+// HTTP method.
+
+// export function loadProducts(fun) {
+//     const xhr = new XMLHttpRequest();
+
+//     xhr.addEventListener('load', () => {
+//         products = JSON.parse(xhr.response).map((productsdetails) => {
+
+//             if (productsdetails.type === 'clothing') {
+//                 return new Clothes(productsdetails);
+//             }
+//             return new Product(productsdetails);
+//         });
+
+//         console.log('Hello');
+
+//         if (typeof fun === 'function') {
+//             fun();
+//         } else {
+//             console.error('fun is not a function');
+//         }
+//     });
+//     xhr.open('GET', 'https://supersimplebackend.dev/products')
+//     xhr.send();
+// }
+
+// loadProducts();
+
+
 // const t_shirt = new Clothes(
 //     {
 //         id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
@@ -124,7 +180,7 @@ class Clothes extends Product {
 // console.log("Product Price in Cents:", product1.getPriceCents()); 
 
 
-
+/*
 export const products = [
     {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -793,3 +849,4 @@ export const products = [
 });
 
 console.log(products);
+*/

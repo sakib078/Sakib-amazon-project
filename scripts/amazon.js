@@ -1,12 +1,16 @@
 import { cart, addProductToCart, calculateCartTotal, } from "../scripts/cart.js";
-import { products } from "../scripts/products.js";
+import { products, loadProductsFetch } from "../scripts/products.js";
 import { priceFormatter } from "../scripts/utils/money.js";
 
-let productHtml = '';
 
-// Loop through the products array and generate the HTML for each product
-products.forEach((product) => {
-  productHtml += `
+
+
+function renderProductContianer() {
+  let productHtml = '';
+
+  // Loop through the products array and generate the HTML for each product
+  products.forEach((product) => {
+    productHtml += `
     <div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src=" ${product.image}">
@@ -57,25 +61,42 @@ products.forEach((product) => {
         </button>
       </div>
     `
-})
-
-console.log(productHtml);
-
-// adding the html into the page
-
-document.querySelector(".js-product-grid").innerHTML = productHtml;
-
-
-document.querySelectorAll(".js-add-to-cart")
-  .forEach((button) => {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
-
-      addProductToCart(productId);
-
-      calculateCartTotal();
-    })
   })
+
+  console.log(productHtml);
+
+  // adding the html into the page
+
+  document.querySelector(".js-product-grid").innerHTML = productHtml;
+
+
+  document.querySelectorAll(".js-add-to-cart")
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        const productId = button.dataset.productId;
+
+        addProductToCart(productId);
+
+        calculateCartTotal();
+      })
+    })
+}
+
+
+function loadCheckout() {
+
+  loadProductsFetch() // this thing is returing the promise directly, So no need to mention promise.
+
+    .then((values) => {
+      console.log(values);
+      console.log('Loading product container');
+      renderProductContianer();
+    })
+}
+
+loadCheckout();
+
+
 
 
 
