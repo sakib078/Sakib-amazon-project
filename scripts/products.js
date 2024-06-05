@@ -91,8 +91,11 @@ export function loadProductsFetch() {
                     return new Clothes(productDetails);
                 }
                 return new Product(productDetails);
-            });
-        })
+            })
+        }).catch((error) => {
+            console.log('error....... Occured');
+            console.error(error);
+        });
     return promise;
 }
 
@@ -123,11 +126,19 @@ loadProductsFetch();
 //             console.error('fun is not a function');
 //         }
 //     });
+
+//     xhr.addEventListener('error', (error) => {
+//         console.log(error);
+//         console.error('get an error , please try again');
+//     })
+
 //     xhr.open('GET', 'https://supersimplebackend.dev/products')
 //     xhr.send();
 // }
 
 // loadProducts();
+
+
 
 
 // const t_shirt = new Clothes(
