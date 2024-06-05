@@ -92,6 +92,7 @@ export function loadProductsFetch() {
                 }
                 return new Product(productDetails);
             })
+            console.log('loaded the data');
         }).catch((error) => {
             console.log('error....... Occured');
             console.error(error);
