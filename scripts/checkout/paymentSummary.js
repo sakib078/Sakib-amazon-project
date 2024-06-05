@@ -2,6 +2,7 @@ import { cart } from "../cart.js"
 import { priceFormatter } from "../utils/money.js";
 import { products } from "../products.js";
 import { deliveryOptions } from "../deliveryOptions.js"
+import { addOrder, saveorderLocally } from "../orders.js";
 
 // loadProducts(renderPaymentSummary);
 
@@ -79,10 +80,12 @@ export function renderPaymentSummary() {
           <div class="payment-summary-money">$${priceFormatter(finalprize)}</div>
         </div>
 
-        <button class="place-order-button button-primary">
+        <button class="place-order-button button-primary js-place-order">
           Place your order
         </button>
         `
     document.querySelector(".js-payment-summary").innerHTML = orderSummary;
+
+    addOrder();
   });
 }
